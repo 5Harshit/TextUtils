@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import './App.css'
+import './App.css';
 import Navbar from './Component/Layouts/Navbar';
 import TextForm from './Component/Layouts/TextForm';
 import Alert from './Component/Layouts/Alert';
 import About from './Component/Layouts/About';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import {route} from "./Router"
+
 
 function App() {
+ const view = {
+  home: <TextForm/>,
+  about : <About/>
+  }
   const [mode, setMode] = useState('light');
   const [alert, setAlert] = useState(null);
   const [txt, setTxt] = useState('Enable Dark Mode');
@@ -43,21 +48,20 @@ function App() {
     }
   }
 
+  
+ const loadPage=()=>{
+  
+    return view[route];
+ }
+  
+  
   return (
     <React.Fragment>
-      <Router>
-
         <Navbar title="TextUtils" mode={mode} toggleMode={toggleMode} txt={txt} />
         <Alert alert={alert} />
-
-        <div className="container my-3">
-          <Routes>
-            <Route exact path="/" element={<TextForm heading="Enter the text to analyze" mode={mode} />} />
-            <Route exact path="/about" element={<About mode={mode} />} />
-          </Routes>
-        </div>
-      </Router>
+      {loadPage()}
     </React.Fragment>
   )
+  
 }
 export default App;
